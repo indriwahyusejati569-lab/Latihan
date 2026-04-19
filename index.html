@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alarm Troubleshooting</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f4f6f8;
+    }
+    header {
+      background: #2c3e50;
+      color: white;
+      padding: 15px;
+      text-align: center;
+    }
+    .container {
+      padding: 20px;
+      max-width: 800px;
+      margin: auto;
+    }
+    .search-box {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    input {
+      flex: 1;
+      padding: 10px;
+      font-size: 16px;
+    }
+    button {
+      padding: 10px 15px;
+      background: #3498db;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    .card {
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .title {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .section {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h2>Sistem Alarm & Troubleshooting</h2>
+</header>
+
+<div class="container">
+
+  <div class="search-box">
+    <input type="text" id="search" placeholder="Masukkan kode alarm atau kata kunci...">
+    <button onclick="searchAlarm()">Cari</button>
+  </div>
+
+  <div id="result"></div>
+
+</div>
+
+<script>
+  const data = [
+    {
+      kode: "ALM-001",
+      nama: "Sensor Tidak Terdeteksi",
+      penyebab: ["Sensor kotor", "Kabel lepas"],
+      solusi: ["Bersihkan sensor", "Periksa kabel", "Restart mesin"]
+    },
+    {
+      kode: "ALM-002",
+      nama: "Motor Trip",
+      penyebab: ["Overload", "Bearing macet"],
+      solusi: ["Reset overload", "Periksa motor", "Cek mekanik"]
+    }
+  ];
+
+  function searchAlarm() {
+    const keyword = document.getElementById("search").value.toLowerCase();
+    const resultDiv = document.getElementById("result");
+    resultDiv.innerHTML = "";
+
+    const filtered = data.filter(item =>
+      item.kode.toLowerCase().includes(keyword) ||
+      item.nama.toLowerCase().includes(keyword)
+    );
+
+    if (filtered.length === 0) {
+      resultDiv.innerHTML = "<p>Tidak ditemukan</p>";
+      return;
+    }
+
+    filtered.forEach(item => {
+      const card = document.createElement("div");
+      card.className = "card";
+
+      card.innerHTML = `
+        <div class="title">${item.kode} - ${item.nama}</div>
+        <div class="section"><b>Penyebab:</b><ul>${item.penyebab.map(p => `<li>${p}</li>`).join('')}</ul></div>
+        <div class="section"><b>Solusi:</b><ol>${item.solusi.map(s => `<li>${s}</li>`).join('')}</ol></div>
+      `;
+
+      resultDiv.appendChild(card);
+    });
+  }
+</script>
+
+</body>
+</html>
